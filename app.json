@@ -80,6 +80,290 @@
   "support": "https://github.com/jbothe/homey-heatnglo-rc300/issues",
   "source": "https://github.com/jbothe/homey-heatnglo-rc300",
   "flow": {
+    "triggers": [
+      {
+        "id": "fan_level_changed",
+        "title": {
+          "en": "The fan speed changed to",
+          "nl": "De ventilatorsnelheid is veranderd naar",
+          "de": "Die Lüftergeschwindigkeit hat sich geändert auf",
+          "fr": "La vitesse du ventilateur est passée à"
+        },
+        "titleFormatted": {
+          "en": "The fan speed changed to [[speed]]",
+          "nl": "De ventilatorsnelheid is veranderd naar [[speed]]",
+          "de": "Die Lüftergeschwindigkeit hat sich auf [[speed]] geändert",
+          "fr": "La vitesse du ventilateur est passée à [[speed]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rc300"
+          },
+          {
+            "name": "speed",
+            "type": "dropdown",
+            "title": {
+              "en": "Speed",
+              "nl": "Snelheid",
+              "de": "Geschwindigkeit",
+              "fr": "Vitesse"
+            },
+            "values": [
+              {
+                "id": "low",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag",
+                  "de": "Niedrig",
+                  "fr": "Faible"
+                }
+              },
+              {
+                "id": "med",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Gemiddeld",
+                  "de": "Mittel",
+                  "fr": "Moyen"
+                }
+              },
+              {
+                "id": "high",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog",
+                  "de": "Hoch",
+                  "fr": "Élevé"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "flame_level_changed",
+        "title": {
+          "en": "The flame level changed to",
+          "nl": "De vlamhoogte is veranderd naar",
+          "de": "Die Flammenhöhe hat sich geändert auf",
+          "fr": "La hauteur de flamme est passée à"
+        },
+        "titleFormatted": {
+          "en": "The flame level changed to [[level]]",
+          "nl": "De vlamhoogte is veranderd naar [[level]]",
+          "de": "Die Flammenhöhe hat sich auf [[level]] geändert",
+          "fr": "La hauteur de flamme est passée à [[level]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rc300"
+          },
+          {
+            "name": "level",
+            "type": "dropdown",
+            "title": {
+              "en": "Level",
+              "nl": "Niveau",
+              "de": "Stufe",
+              "fr": "Niveau"
+            },
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag",
+                  "de": "Niedrig",
+                  "fr": "Faible"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "Medium-low",
+                  "nl": "Middellaag",
+                  "de": "Mittelniedrig",
+                  "fr": "Moyen-faible"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Gemiddeld",
+                  "de": "Mittel",
+                  "fr": "Moyen"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "Medium-high",
+                  "nl": "Middelhoog",
+                  "de": "Mittelhoch",
+                  "fr": "Moyen-élevé"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog",
+                  "de": "Hoch",
+                  "fr": "Élevé"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "fan_level_is",
+        "title": {
+          "en": "The fan speed !{{is|is not}}",
+          "nl": "De ventilatorsnelheid !{{is|is niet}}",
+          "de": "Die Lüftergeschwindigkeit !{{ist|ist nicht}}",
+          "fr": "La vitesse du ventilateur !{{est|n'est pas}}"
+        },
+        "titleFormatted": {
+          "en": "The fan speed !{{is|is not}} [[speed]]",
+          "nl": "De ventilatorsnelheid !{{is|is niet}} [[speed]]",
+          "de": "Die Lüftergeschwindigkeit !{{ist|ist nicht}} [[speed]]",
+          "fr": "La vitesse du ventilateur !{{est|n'est pas}} [[speed]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rc300"
+          },
+          {
+            "name": "speed",
+            "type": "dropdown",
+            "title": {
+              "en": "Speed",
+              "nl": "Snelheid",
+              "de": "Geschwindigkeit",
+              "fr": "Vitesse"
+            },
+            "values": [
+              {
+                "id": "low",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag",
+                  "de": "Niedrig",
+                  "fr": "Faible"
+                }
+              },
+              {
+                "id": "med",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Gemiddeld",
+                  "de": "Mittel",
+                  "fr": "Moyen"
+                }
+              },
+              {
+                "id": "high",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog",
+                  "de": "Hoch",
+                  "fr": "Élevé"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "flame_level_is",
+        "title": {
+          "en": "The flame level !{{is|is not}}",
+          "nl": "De vlamhoogte !{{is|is niet}}",
+          "de": "Die Flammenhöhe !{{ist|ist nicht}}",
+          "fr": "La hauteur de flamme !{{est|n'est pas}}"
+        },
+        "titleFormatted": {
+          "en": "The flame level !{{is|is not}} [[level]]",
+          "nl": "De vlamhoogte !{{is|is niet}} [[level]]",
+          "de": "Die Flammenhöhe !{{ist|ist nicht}} [[level]]",
+          "fr": "La hauteur de flamme !{{est|n'est pas}} [[level]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=rc300"
+          },
+          {
+            "name": "level",
+            "type": "dropdown",
+            "title": {
+              "en": "Level",
+              "nl": "Niveau",
+              "de": "Stufe",
+              "fr": "Niveau"
+            },
+            "values": [
+              {
+                "id": "1",
+                "label": {
+                  "en": "Low",
+                  "nl": "Laag",
+                  "de": "Niedrig",
+                  "fr": "Faible"
+                }
+              },
+              {
+                "id": "2",
+                "label": {
+                  "en": "Medium-low",
+                  "nl": "Middellaag",
+                  "de": "Mittelniedrig",
+                  "fr": "Moyen-faible"
+                }
+              },
+              {
+                "id": "3",
+                "label": {
+                  "en": "Medium",
+                  "nl": "Gemiddeld",
+                  "de": "Mittel",
+                  "fr": "Moyen"
+                }
+              },
+              {
+                "id": "4",
+                "label": {
+                  "en": "Medium-high",
+                  "nl": "Middelhoog",
+                  "de": "Mittelhoch",
+                  "fr": "Moyen-élevé"
+                }
+              },
+              {
+                "id": "5",
+                "label": {
+                  "en": "High",
+                  "nl": "Hoog",
+                  "de": "Hoch",
+                  "fr": "Élevé"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
     "actions": [
       {
         "id": "set_fan_speed",
