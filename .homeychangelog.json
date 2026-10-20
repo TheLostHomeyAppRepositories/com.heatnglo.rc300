@@ -10,5 +10,11 @@
     "nl": "Updates van de App Store-vermelding.",
     "de": "Aktualisierungen des App-Store-Eintrags.",
     "fr": "Mises à jour de la fiche App Store."
+  },
+  "2.1.0": {
+    "en": "The fireplace now shows up in Homey as a fireplace instead of a heater, so it no longer offers a thermostat control it can't use. On/off, flame level and fan speed are unchanged. This version needs Homey v12.0.0 or newer.",
+    "nl": "De haard verschijnt in Homey nu als haard in plaats van als verwarming, zodat er geen thermostaatregeling meer wordt aangeboden die niet werkt. Aan/uit, vlamhoogte en ventilatorsnelheid blijven hetzelfde. Deze versie vereist Homey v12.0.0 of nieuwer.",
+    "de": "Der Kamin erscheint in Homey jetzt als Kamin statt als Heizung und bietet damit keine Thermostatsteuerung mehr an, die nicht funktioniert. Ein/Aus, Flammenhöhe und Lüftergeschwindigkeit bleiben unverändert. Diese Version erfordert Homey v12.0.0 oder neuer.",
+    "fr": "Le foyer apparaît désormais dans Homey comme un foyer plutôt que comme un radiateur, et ne propose donc plus une commande de thermostat inutilisable. Marche/arrêt, hauteur de flamme et vitesse du ventilateur sont inchangés. Cette version nécessite Homey v12.0.0 ou une version plus récente."
   }
 }
