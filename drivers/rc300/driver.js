@@ -6,6 +6,14 @@ const { SIGNAL_ID, identifyFrame, isPowerCommand } = require('./rc300-protocol')
 // How long to listen for a button press before giving up, in milliseconds.
 const LEARN_TIMEOUT = 30000;
 
+// The two settable levels, and the Flow cards that belong to each. Homey only
+// generates cards for its own capabilities, so all six here are hand-written in
+// driver.flow.compose.json; `arg` is the name each card gives its dropdown.
+const LEVELS = [
+    { capability: 'fan_level', arg: 'speed', action: 'set_fan_speed' },
+    { capability: 'flame_level', arg: 'level', action: 'set_flame_level' },
+];
+
 class Rc300Driver extends Homey.Driver {
     async onInit() {
         this.learnAttempts = 0;
@@ -18,15 +26,23 @@ class Rc300Driver extends Homey.Driver {
         this.signal = this.homey.rf.getSignal433(SIGNAL_ID);
         this.signal.on('payload', this.onPayload.bind(this));
 
-        this.homey.flow.getActionCard('set_fan_speed')
-            .registerRunListener(async (args) => {
-                await args.device.triggerCapabilityListener('fan_level', args.speed);
-            });
+        for (const { capability, arg, action } of LEVELS) {
+            this.homey.flow.getActionCard(action)
+                .registerRunListener(async (args) => {
+                    await args.device.triggerCapabilityListener(capability, args[arg]);
+                });
 
-        this.homey.flow.getActionCard('set_flame_level')
-            .registerRunListener(async (args) => {
-                await args.device.triggerCapabilityListener('flame_level', args.level);
-            });
+            // Each trigger names the one value it fires for, the same shape
+            // Homey uses for its own enum capabilities, so matching is just
+            // the picked value against the one the device fired with.
+            this.homey.flow.getDeviceTriggerCard(`${capability}_changed`)
+                .registerRunListener(async (args, state) => args[arg] === state.value);
+
+            this.homey.flow.getConditionCard(`${capability}_is`)
+                .registerRunListener(async (args) => {
+                    return args.device.getCapabilityValue(capability) === args[arg];
+                });
+        }
     }
 
     onPayload(payload, isFirst) {

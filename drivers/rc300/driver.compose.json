@@ -7,7 +7,7 @@
     "large": "/drivers/rc300/assets/images/large.png",
     "small": "/drivers/rc300/assets/images/small.png"
   },
-  "class": "heater",
+  "class": "fireplace",
   "platforms": [ "local" ],
   "connectivity": [ "rf433" ],
   "rf433": {

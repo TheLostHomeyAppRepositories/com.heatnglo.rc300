@@ -69,13 +69,15 @@ class Rc300Device extends Homey.Device {
         // change that already happened, and must not transmit it back.
         switch (family) {
             case 'power':
+                // onoff is Homey's own capability, so Homey fires its Flow
+                // cards itself whenever the value changes.
                 this.setCapabilityValue('onoff', value === 'on').catch(this.error);
                 break;
             case 'fan':
-                this.setCapabilityValue('fan_level', value).catch(this.error);
+                this.setLevel('fan_level', value).catch(this.error);
                 break;
             case 'flame':
-                this.setCapabilityValue('flame_level', value).catch(this.error);
+                this.setLevel('flame_level', value).catch(this.error);
                 break;
             default:
                 return;
@@ -109,6 +111,24 @@ class Rc300Device extends Homey.Device {
         }
     }
 
+    // Reflects a new fan or flame level, and fires the Flow trigger for it.
+    // Homey generates neither for a custom capability, so both routes to a new
+    // value come through here: a press we heard on RX, and a change made from
+    // Homey. A value that did not actually change fires nothing, which is also
+    // what keeps one change from triggering twice should we ever hear our own
+    // transmission back.
+    async setLevel(capability, value) {
+        if (this.getCapabilityValue(capability) === value) return;
+
+        await this.setCapabilityValue(capability, value);
+
+        // Not awaited: a Flow trigger that fails must not make a change the
+        // fireplace has already acted on look like it failed.
+        this.homey.flow.getDeviceTriggerCard(`${capability}_changed`)
+            .trigger(this, {}, { value })
+            .catch(this.error);
+    }
+
     async onCapabilityOnOff(value) {
         await this.send(value ? 'power.on' : 'power.off', value ? POWER.on : POWER.off);
     }
@@ -116,11 +136,13 @@ class Rc300Device extends Homey.Device {
     async onCapabilityFanLevel(value) {
         this.assertOn('fan speed');
         await this.send(`fan.${value}`, FAN[value]);
+        await this.setLevel('fan_level', value);
     }
 
     async onCapabilityFlameLevel(value) {
         this.assertOn('flame level');
         await this.send(`flame.${value}`, FLAME[value]);
+        await this.setLevel('flame_level', value);
     }
 
     // Just like the physical remote, the fan and flame can't be changed while
